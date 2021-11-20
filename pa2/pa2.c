@@ -77,7 +77,6 @@ int main(int argc, char const *argv[])
             return EXIT_FAILURE;
         }
         // argv[3]: the name of output file.
-        // read input from input file
         if (fseek(fptr, 0, SEEK_END) != 0) 
         {
             fprintf(stderr, "fseek fails when calculating size.\n");
@@ -107,7 +106,6 @@ int main(int argc, char const *argv[])
         {
             if (ops[i] == 'i') 
             {
-                // insert a node.
                 root = node_insert(keylist[i], root);
             }
             else if (ops[i] == 'd') 
@@ -118,17 +116,16 @@ int main(int argc, char const *argv[])
             preorder(root, NULL);
             #endif
         }
-        // print the tree in preorder.
+        // print the tree 
         #ifndef DEBUG
         preorder(root, fptr);
         #endif
-        // release the moemory allocated.
+        // release the mem alloc
         free(keylist);
         free(ops);
         tree_destroy(root);
         fclose(fptr);
         return EXIT_SUCCESS;
     }
-    fprintf(stderr, "option not recoginized. \n");
     return EXIT_FAILURE;
 }
