@@ -14,6 +14,7 @@ int main(int argc, char const *argv[])
         {
             return EXIT_FAILURE;
         }
+
         int indc[3] = {0};
         // argv[2]: the input filename.
         FILE* fptr = fopen(argv[2], "r");
