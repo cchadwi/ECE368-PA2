@@ -15,24 +15,23 @@ int main(int argc, char const *argv[])
             return EXIT_FAILURE;
         }
 
-        int indc[3] = {0};
+        int indc[3] = {0}; //indicator array
         // argv[2]: the input filename.
         FILE* fptr = fopen(argv[2], "r");
-        // 1st digit indicates if the file can be open successfully.
         if (fptr == NULL) 
         {
-            fprintf(stderr, "the input file is not valid. \n");
+            fprintf(stderr, "Input file is not valid. \n");
             fprintf(stdout, "%d, %d, %d\n", indc[0], indc[1], indc[2]);
             return EXIT_FAILURE;
         }
-        // now the file has been opened successfully.
-        // calculate the size of input info.
+        // calculate the size of input
         if (fseek(fptr, 0, SEEK_END) != 0) 
         {
             fprintf(stderr, "fseek fails when calculating size.\n");
             return EXIT_FAILURE;
         }
         int size = ftell(fptr) / (sizeof(int) + sizeof(char));
+        // moves to file head
         if (fseek(fptr, 0, SEEK_SET) != 0) 
         {
             fprintf(stderr, "fseek fails when moving to file head.\n");
@@ -43,19 +42,17 @@ int main(int argc, char const *argv[])
         char* child = malloc(size* sizeof(char));
         read_input(fptr, keylist, child, size);
         // build the tree.
-        int i = 0; // index for building the tree.
+        int i = 0; 
         Tnode* root = tree_build(keylist, child, &i, size - 1);
         // test if it is a BST.
-        bool rtv = BST_check(root);
-        // 2nd digit indicates if the tree is a valid tree.
-        indc[1] = (rtv) ? 1 : 0;
-        // calculate the height of each node.
+        bool test = BST_check(root);
+        indc[1] = (test) ? 1 : 0;
+
         balance_cal(root);
-        // determine if it is an AVL tree.
-        rtv = balance_check(root);
-        // 3rd digit incicates if the tree is an AVL tree.
-        indc[2] = (rtv) ? 1: 0;
-        // output the evaluation.
+        test = balance_check(root); // avl tree or no?
+        indc[2] = (test) ? 1: 0;
+
+        // output 
         fprintf(stdout, "%d, %d, %d\n", 1, indc[1], indc[2]);
         free(keylist);
         free(child);
@@ -66,12 +63,10 @@ int main(int argc, char const *argv[])
 
 
 
-    else if (!strcmp(argv[1], "-b")) 
+    else if (!strcmp(argv[1], "-b")) // checks if it is -b for build
     {
-        // check the number of arguments.
         if (argc != 4) 
         {
-            fprintf(stderr, "check the number of argument. \n");
             return EXIT_FAILURE;
         }
         // argv[2]: the filename of input file.
