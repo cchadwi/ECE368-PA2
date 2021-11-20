@@ -4,7 +4,7 @@
 
 Tnode* node_build(int key);
 
-Tnode* tree_build(int* keylist, char* children, int* ind, int ub);
+Tnode* tree_build(int* keylist, char* child, int* ind, int ub);
 
 int balance_cal(Tnode* root);
 
