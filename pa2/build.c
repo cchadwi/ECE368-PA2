@@ -64,37 +64,40 @@ Tnode *tree_balance(Tnode *ya, Tnode *new) // ya is youngest ancestor
         root = rotate_right(ya);
         if (curr == new)
         {
-            // case 2c: curr is new node.
+            // curr is new node.
             ya->balance = 0;
             child->balance = 0;
         }
+
         else
         {
-            // curr -> balance == 1 case 2a
+            // curr -> balance == 1 
             if (curr->balance == 1)
             {
                 ya->balance = -1;
                 child->balance = 0;
             }
+
             else
             {
-                // curr -> balance  == -1: case 2b
+                // curr -> balance  == -1
                 ya->balance = 0;
                 child->balance = 1;
             }
             curr->balance = 0;
         }
     }
-    else if ((ya->balance == -2) && (child->balance == 1))
+    else if ((ya->balance == -2) && (child->balance == 1)) // need to rotate child right and ya left
     {
         curr = child->left;
         ya->right = rotate_right(child);
         root = rotate_left(ya);
         if (curr->balance == 0)
-        { // same with case 2c.
+        {
             ya->balance = 0;
             child->balance = 0;
         }
+
         else
         {
             if (curr->balance == -1)
@@ -102,6 +105,7 @@ Tnode *tree_balance(Tnode *ya, Tnode *new) // ya is youngest ancestor
                 ya->balance = 1;
                 child->balance = 0;
             }
+
             else
             {
                 ya->balance = 0;
@@ -110,24 +114,23 @@ Tnode *tree_balance(Tnode *ya, Tnode *new) // ya is youngest ancestor
             curr->balance = 0;
         }
     }
-#ifdef DEBUG
+    #ifdef DEBUG
     preorder(ya, NULL);
     fprintf(stderr, "\n");
-#endif
+    #endif
     return curr;
 }
 
 Tnode *node_insert(int key, Tnode *root)
 {
-    Tnode dummy =
-        {
+    Tnode dummy = {
             .key = 0,
             .balance = 0,
             .left = root,
             .right = root,
         };
-    Tnode *prev = NULL; // parrent
-    Tnode *curr = root; // current.
+    Tnode *prev = NULL; 
+    Tnode *curr = root; 
     Tnode *ya = curr;
     Tnode *pya = &dummy;
     Tnode *q = NULL;
@@ -137,11 +140,13 @@ Tnode *node_insert(int key, Tnode *root)
         {
             q = curr->right;
         }
+
         else
         {
             q = curr->left;
         }
-        // keep record of youngest ancesstor.
+
+        // keep record of ya
         if ((q != NULL) && (q->balance != 0))
         {
             pya = curr;
@@ -150,24 +155,27 @@ Tnode *node_insert(int key, Tnode *root)
         prev = curr;
         curr = q;
     }
-    q = node_construct(key);
+    q = node_build(key);
     if (root == NULL)
     {
         return q;
     }
+
     if (key <= prev->key)
     {
         prev->left = q;
     }
+
     else
     {
         prev->right = q;
     }
-#ifdef DEBUG
+
+    #ifdef DEBUG
     preorder(root, NULL);
     fprintf(stderr, "\n");
-#endif
-    // update the balance.
+    #endif
+    // update
     curr = ya;
     while (curr != q)
     {
@@ -176,25 +184,27 @@ Tnode *node_insert(int key, Tnode *root)
             curr->balance++;
             curr = curr->left;
         }
+
         else
         {
             curr->balance--;
             curr = curr->right;
         }
     }
-    // check balance.
+    // check balance
     if (key <= pya->key)
     {
         pya->left = tree_balance(ya, q);
         return dummy.left;
     }
+
     else
     {
         pya->right = tree_balance(ya, q);
-#ifdef DEBUG
+        #ifdef DEBUG
         preorder(root, NULL);
         fprintf(stderr, "\n");
-#endif
+        #endif
         return dummy.right;
     }
 }
@@ -205,51 +215,51 @@ Tnode *node_delete(int val, Tnode *root)
     {
         return NULL;
     }
+
     if (val < root->key)
     {
         root->left = node_delete(val, root->left);
     }
+
     else if (val > root->key)
     {
         root->right = node_delete(val, root->right);
     }
-    // now val == root -> key.
+
     else
     {
-        // root has no child.
         if ((root->left == NULL) && (root->right == NULL))
         {
             free(root);
             return NULL;
         }
-        if (root->left == NULL)
+
+        if (root->left == NULL) //right child
         {
-            // there must be right child.
             Tnode *rc = root->right;
             free(root);
             return rc;
         }
-        if (root->right == NULL)
+
+        if (root->right == NULL) //left child
         {
-            // must have left child.
             Tnode *lc = root->left;
             free(root);
             return lc;
         }
-        // root has both left and right child.
-        // find the largest one in left sub-tree.
+
+        // finds the largest child in left sub-tree
         Tnode *p = root->left;
         while (p->right != NULL)
         {
             p = p->right;
         }
-        // pass its value to root and delete it.
+        // pass val to root and delete it
         root->key = p->key;
         p->key = val;
         root->left = node_delete(val, root->left);
     }
     // update height and balance.
-    // may need balance at each level.
     balance_cal(root);
     int bal = root->balance;
     int lb = (root->left == NULL) ? 0 : root->left->balance;
@@ -258,20 +268,24 @@ Tnode *node_delete(int val, Tnode *root)
     {
         return rotate_right(root);
     }
+
     if ((bal < -1) && (rb <= 0))
     {
         return rotate_left(root);
     }
+
     if ((bal > 1) && (lb < 0))
     {
         root->left = rotate_left(root->left);
         return rotate_right(root);
     }
+
     if ((bal < -1) && (rb > 0))
     {
         root->right = rotate_right(root->right);
         return rotate_left(root);
     }
+
     return root;
 }
 
@@ -281,15 +295,17 @@ void preorder(Tnode *root, FILE *fptr)
     {
         return;
     }
+
     #ifndef DEBUG
     if (fptr == NULL)
     {
         return;
     }
+
     #endif
     Tnode *lc = root->left;
     Tnode *rc = root->right;
-    char child = ((lc == NULL) && (rc == NULL)) ? 0 : (lc == NULL) ? 1 : (rc == NULL)   ? 2 : 3;
+    char child = ((lc == NULL) && (rc == NULL)) ? 0 : (lc == NULL) ? 1 : (rc == NULL) ? 2 : 3;
     #ifndef DEBUG
     int rtv = 0;
     rtv = fwrite(&(root->key), sizeof(int), 1, fptr);
@@ -300,7 +316,6 @@ void preorder(Tnode *root, FILE *fptr)
         return;
     }
     #endif
-    // fprintf(stderr, "%d %d\n", root -> key, (int)child);
     preorder(root->left, fptr);
     preorder(root->right, fptr);
 }
