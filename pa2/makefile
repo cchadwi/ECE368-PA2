@@ -31,7 +31,7 @@ test2: pa2
 	cmp tree2.b ./examples/tree2.b
 
 test3: pa2
-	./pa4 -b ./examples/ops3.b tree3.b
+	./pa2 -b ./examples/ops3.b tree3.b
 	cmp tree3.b ./examples/tree3.b
 
 testall: test0 test1 test2 test3

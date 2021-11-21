@@ -2,7 +2,7 @@
 #define __EVALUATE_H
 #include <stdbool.h>
 
-Tnode* node_build(int key);
+Tnode* node_construct(int key);
 
 Tnode* tree_build(int* keylist, char* child, int* ind, int ub);
 

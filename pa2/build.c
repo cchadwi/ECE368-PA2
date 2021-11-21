@@ -155,7 +155,7 @@ Tnode *node_insert(int key, Tnode *root)
         prev = curr;
         curr = q;
     }
-    q = node_build(key);
+    q = node_construct(key);
     if (root == NULL)
     {
         return q;
