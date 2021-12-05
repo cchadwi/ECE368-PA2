@@ -18,7 +18,7 @@ testeval: pa2
 	./pa2 -e ./examples/tree0.b
 	./pa2 -e ./examples/tree1.b
 	./pa2 -e ./examples/tree2.b
-	./pa2 -e ./examples/tree3.b
+	./pa2 -e ./examples/tree3.b 
 test0: pa2
 	./pa2 -b ./examples/ops0.b tree0.b
 	cmp tree0.b ./examples/tree0.b
