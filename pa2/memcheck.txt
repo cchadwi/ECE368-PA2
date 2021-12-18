@@ -27,9 +27,9 @@
 --14260--    object doesn't have a dynamic symbol table
 --14260-- Scheduler: using generic scheduler lock implementation.
 --14260-- Reading suppressions file: /usr/libexec/valgrind/default.supp
-==14260== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-14260-by-cchadwi-on-ecegrid-thin1.ecn.purdue.edu
-==14260== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-14260-by-cchadwi-on-ecegrid-thin1.ecn.purdue.edu
-==14260== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-14260-by-cchadwi-on-ecegrid-thin1.ecn.purdue.edu
+==14260== embedded gdbserver: reading from /tmp/vgdb-pipe-fromatrix-vgdb-to-14260-by-cchadwi-on-ecegrid-thin1.ecn.purdue.edu
+==14260== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-fromatrix-14260-by-cchadwi-on-ecegrid-thin1.ecn.purdue.edu
+==14260== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mematrix-vgdb-14260-by-cchadwi-on-ecegrid-thin1.ecn.purdue.edu
 ==14260== 
 ==14260== TO CONTROL THIS PROCESS USING vgdb (which you probably
 ==14260== don't want to do, unless you know exactly what you're doing,
